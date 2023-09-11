@@ -1,0 +1,6 @@
+ios/*
+win/*
+macx/*
+android/*
+CMakeLists.txt.user
+out/*

@@ -4,19 +4,13 @@ import "scenes"
 
 GameWindow {
     id: window
-    screenWidth: 960
-    screenHeight: 640
-
-    // You get free licenseKeys from https://felgo.com/licenseKey
-    // With a licenseKey you can:
-    //  * Publish your games & apps for the app stores
-    //  * Remove the Felgo Splash Screen or set a custom one (available with the Pro Licenses)
-    //  * Add plugins to monetize, analyze & improve your apps (available with the Pro Licenses)
-    //licenseKey: "<generate one from https://felgo.com/licenseKey>"
+    screenWidth: 480
+    screenHeight: 320
 
     // create and remove entities at runtime
     EntityManager {
         id: entityManager
+        entityContainer: gameScene
     }
 
     // menu scene
@@ -62,10 +56,13 @@ GameWindow {
     GameScene {
         id: gameScene
         onBackButtonPressed: window.state = "selectLevel"
+
+        //Setting it to Level 1 to easytest
+        activeLevelFileName: "Level1.qml"
     }
 
     // menuScene is our first scene, so set the state to menu initially
-    state: "menu"
+    state: "game"
     activeScene: menuScene
 
     // state machine, takes care reversing the PropertyChanges when changing the state, like changing the opacity back to 0

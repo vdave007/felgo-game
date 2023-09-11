@@ -32,8 +32,15 @@ file(GLOB_RECURSE QmlFiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} qml/*.qml qml/*.
 file(GLOB_RECURSE AssetsFiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} assets/* qml/*)
 list(REMOVE_ITEM AssetsFiles ${QmlFiles})
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
+
+file(GLOB P_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+)
+
 qt_add_executable(appgoodcop_badcop
     main.cpp
+    ${P_SOURCES}
     ${QmlFiles}
     ${AssetsFiles}
 )
