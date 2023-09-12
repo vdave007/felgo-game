@@ -33,9 +33,6 @@ EntityBase {
         height: vehicle.height + 10
 
         fixture.onBeginContact: {
-
-            console.log("IN");
-
             var body = other.getBody();
             var collidedEntity = body.target;
             var collidedEntityType = collidedEntity.entityType;

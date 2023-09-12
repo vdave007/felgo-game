@@ -33,6 +33,10 @@ SceneBase {
         id: road
     }
 
+    UtilityBelt {
+        id: utilityBelt
+    }
+
     PhysicsWorld {
     }
 
