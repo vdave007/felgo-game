@@ -11,7 +11,15 @@ SceneBase {
     // score
     property int score: 0
     // flag indicating if game is running
-    property bool gameRunning: true
+    property bool gameRunning: gameScene.enabled
+
+    onGameRunningChanged: {
+        sirenRunning = false;
+    }
+
+
+    // flag indicating if the siren is running
+    property bool sirenRunning: false
 
     // set the name of the current level, this will cause the Loader to load the corresponding level
     function setLevel(fileName) {
@@ -35,6 +43,10 @@ SceneBase {
 
     UtilityBelt {
         id: utilityBelt
+
+        onSirenClicked: {
+            sirenRunning = !sirenRunning;
+        }
     }
 
     PhysicsWorld {

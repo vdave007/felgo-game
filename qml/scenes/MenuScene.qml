@@ -7,6 +7,8 @@ SceneBase {
 
     // signal indicating that the selectLevelScene should be displayed
     signal selectLevelPressed
+    // Signal indicating that the upgrades scene should be displayed
+    signal upgradesPressed
     // signal indicating that the creditsScene should be displayed
     signal creditsPressed
 
@@ -33,6 +35,11 @@ SceneBase {
             text: "Levels"
             onClicked: selectLevelPressed()
         }
+        MenuButton {
+            text: "Upgrades"
+            onClicked: upgradesPressed()
+        }
+
         MenuButton {
             text: "Credits"
             onClicked: creditsPressed()

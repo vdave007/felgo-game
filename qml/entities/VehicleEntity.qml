@@ -9,8 +9,11 @@ EntityBase {
     entityId: "vehicleId"
     entityType: "Vehicle"
 
+    readonly property int finalSpeed: velocity * speedModifier
+
     property bool animationRunning: true
     property int velocity: 100
+    property real speedModifier: 1
     signal exitedFromScene
 
     Rectangle {
@@ -18,9 +21,19 @@ EntityBase {
         anchors.fill: parent
         color: "red"
 
-        Text {
+        Column  {
             anchors.centerIn: parent
-            text: vehicle.entityId
+            Text {
+                font.pixelSize: 7
+                visible: debugInfoEnabled
+                text: vehicle.entityId
+            }
+            Text {
+                font.pixelSize: 7
+                visible: debugInfoEnabled
+                text: "speed:" + vehicle.finalSpeed
+            }
+
         }
     }
 
@@ -39,7 +52,7 @@ EntityBase {
             var collidedEntityId = collidedEntity.entityId;
 
             if (collidedEntityType == vehicle.entityType) {
-                vehicleAsset.color = "#000000";
+                vehicleAsset.color = "#abcdef";
                 let smallerSpeed = Math.min(vehicle.velocity, collidedEntity.velocity);
                 vehicle.velocity = smallerSpeed;
                 collidedEntity.velocity = smallerSpeed;
@@ -54,7 +67,7 @@ EntityBase {
         property: "x"
         minPropertyValue: 0
         maxPropertyValue: 480
-        velocity: vehicle.velocity
+        velocity: vehicle.finalSpeed
         running: vehicle.animationRunning
         onLimitReached: {
             animationRunning = false;

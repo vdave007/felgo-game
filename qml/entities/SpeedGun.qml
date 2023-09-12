@@ -2,12 +2,14 @@ import QtQuick
 import Felgo
 
 EntityBase {
-    id: root
+    id: speedGunBase
 
     entityId: "entity"
     entityType: "SpeedGun"
 
     property var targetedVehicle: undefined
+    property int timeToFixate: 3000
+    property int lastValidMeasurement: -1
 
     Rectangle {
         id: pointer
@@ -40,7 +42,7 @@ EntityBase {
 
         Text {
             anchors.centerIn: display
-            text: !targetedVehicle ? "-" : targetedVehicle.velocity
+            text: lastValidMeasurement <= 0 ? "-" : lastValidMeasurement
         }
     }
 
@@ -50,17 +52,39 @@ EntityBase {
         width: 20
         height: 30
         anchors {
-            bottom: root.bottom
-            horizontalCenter: root.horizontalCenter
+            bottom: speedGunBase.bottom
+            horizontalCenter: speedGunBase.horizontalCenter
         }
 
         MouseArea {
             id: mouseArea
             anchors.fill: parent
             drag {
-                target: root
+                target: speedGunBase
                 axis: Drag.XandYAxis
             }
+        }
+    }
+
+    Timer {
+        id: fixateTimer
+
+        running: false
+        interval: speedGunBase.timeToFixate
+        repeat: false
+
+        onTriggered: {
+            lastValidMeasurement = !targetedVehicle ? -1 : targetedVehicle.finalSpeed
+        }
+
+        function restartFixateTimer() {
+            lastValidMeasurement = -1;
+            fixateTimer.restart();
+        }
+
+        function forceStopFixateTimer() {
+            lastValidMeasurement = -1;
+            fixateTimer.stop();
         }
     }
 
@@ -73,16 +97,40 @@ EntityBase {
         fixture.onBeginContact: {
             var body = other.getBody();
             targetedVehicle = body.target;
+            fixateTimer.restartFixateTimer();
             colliderCounter++;
         }
 
         fixture.onEndContact: {
             colliderCounter--;
             if (colliderCounter == 0) {
+                if (fixateTimer.running) {
+                    fixateTimer.forceStopFixateTimer();
+                }
                 targetedVehicle = undefined;
             }
         }
-
     }
+
+    state: "invalid"
+
+    states: [
+        State {
+            name: "invalid"
+            when: !fixateTimer.running && lastValidMeasurement <= 0
+            PropertyChanges { target: display; color: "red"}
+        },
+        State {
+            name: "progress"
+            when: fixateTimer.running
+            PropertyChanges { target: display; color: "yellow"}
+        },
+        State {
+            name: "success"
+            when: !fixateTimer.running && lastValidMeasurement > 0
+            PropertyChanges { target: display; color: "green"}
+        }
+
+    ]
 
 }

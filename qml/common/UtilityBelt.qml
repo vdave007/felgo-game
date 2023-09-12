@@ -4,6 +4,7 @@ Rectangle {
     id: belt
 
     signal speedGunClicked
+    signal sirenClicked
     signal beltClicked
 
     onSpeedGunClicked: {
@@ -45,6 +46,7 @@ Rectangle {
     }
 
     Row {
+        spacing: 10
         anchors {
             horizontalCenter: belt.horizontalCenter
             top: belt.top
@@ -64,6 +66,24 @@ Rectangle {
 
                 onClicked: {
                     speedGunClicked();
+                }
+            }
+        }
+
+        Rectangle {
+            id: siren
+            color: sirenRunning ? "red" : "blue"
+
+            width: 20
+            height: 20
+            anchors.verticalCenter: parent.verticalCenter
+
+            MouseArea {
+                id: sirenMouseArea
+                anchors.fill: parent
+
+                onClicked: {
+                    sirenClicked();
                 }
             }
         }

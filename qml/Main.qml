@@ -7,6 +7,8 @@ GameWindow {
     screenWidth: 480
     screenHeight: 320
 
+    property bool debugInfoEnabled: true
+
     // create and remove entities at runtime
     EntityManager {
         id: entityManager
@@ -19,6 +21,7 @@ GameWindow {
         // listen to the button signals of the scene and change the state according to it
         onSelectLevelPressed: window.state = "selectLevel"
         onCreditsPressed: window.state = "credits"
+        onUpgradesPressed: window.state = "upgrades"
         // the menu scene is our start scene, so if back is pressed there we ask the user if he wants to quit the application
         onBackButtonPressed: {
             nativeUtils.displayMessageBox(qsTr("Really quit the game?"), "", 2);
@@ -61,8 +64,13 @@ GameWindow {
         activeLevelFileName: "Level1.qml"
     }
 
+    UpgradesScene {
+        id: upgradesScene
+        onBackButtonPressed: window.state = "menu"
+    }
+
     // menuScene is our first scene, so set the state to menu initially
-    state: "game"
+    state: "menu"
     activeScene: menuScene
 
     // state machine, takes care reversing the PropertyChanges when changing the state, like changing the opacity back to 0
@@ -86,6 +94,11 @@ GameWindow {
             name: "game"
             PropertyChanges {target: gameScene; opacity: 1}
             PropertyChanges {target: window; activeScene: gameScene}
+        },
+        State {
+            name: "upgrades"
+            PropertyChanges {target: upgradesScene; opacity: 1}
+            PropertyChanges {target: window; activeScene: upgradesScene}
         }
     ]
 }
