@@ -1,5 +1,6 @@
 import QtQuick
-import Felgo
+import Felgo 4.0
+import "../common"
 
 EntityBase {
     id: speedGunBase
@@ -7,10 +8,12 @@ EntityBase {
     entityId: "entity"
     entityType: "SpeedGun"
 
+    property GameState gameState
+    property UpgradeManager upgradeManager
+
     property var targetedVehicle: undefined
-    property int timeToFixate: 3000 * (1 - upgradeLevel * 0.1)
-    property int upgradeLevel: 0
-    property int lastValidMeasurement: -1
+    property int timeToFixate: 3000 * (1 - upgradeManager.speedGunUpgrade.value * 0.1)
+    property string lastValidMeasurmentVehicleId: ""
 
     Rectangle {
         id: pointer
@@ -41,9 +44,15 @@ EntityBase {
         border.color: 'black'
         border.width: 10
 
-        Text {
+        Column {
             anchors.centerIn: display
-            text: lastValidMeasurement <= 0 ? "-" : lastValidMeasurement
+            Text {
+                text: gameState.lastValidMeasurement <= 0 ? "-" : gameState.lastValidMeasurement
+            }
+            Text {
+                font.pixelSize: 3
+                text: gameState.lastValidMeasurmentVehicleId
+            }
         }
     }
 
@@ -64,6 +73,11 @@ EntityBase {
                 target: speedGunBase
                 axis: Drag.XandYAxis
             }
+
+            onReleased: {
+                speedGunBase.x = 430
+                speedGunBase.y = 315
+            }
         }
     }
 
@@ -75,16 +89,19 @@ EntityBase {
         repeat: false
 
         onTriggered: {
-            lastValidMeasurement = !targetedVehicle ? -1 : targetedVehicle.finalSpeed
+            gameState.lastValidMeasurement = !targetedVehicle ? -1 : targetedVehicle.finalSpeed
+            gameState.lastValidMeasurmentVehicleId = !targetedVehicle ? "" : targetedVehicle.entityId
         }
 
         function restartFixateTimer() {
-            lastValidMeasurement = -1;
+            gameState.lastValidMeasurement = -1;
+            gameState.lastValidMeasurmentVehicleId = "";
             fixateTimer.restart();
         }
 
         function forceStopFixateTimer() {
-            lastValidMeasurement = -1;
+            gameState.lastValidMeasurement = -1;
+            gameState.lastValidMeasurmentVehicleId = "";
             fixateTimer.stop();
         }
     }
@@ -118,7 +135,7 @@ EntityBase {
     states: [
         State {
             name: "invalid"
-            when: !fixateTimer.running && lastValidMeasurement <= 0
+            when: !fixateTimer.running && gameState.lastValidMeasurement <= 0
             PropertyChanges { target: display; color: "red"}
         },
         State {
@@ -128,7 +145,7 @@ EntityBase {
         },
         State {
             name: "success"
-            when: !fixateTimer.running && lastValidMeasurement > 0
+            when: !fixateTimer.running && gameState.lastValidMeasurement > 0
             PropertyChanges { target: display; color: "green"}
         }
 

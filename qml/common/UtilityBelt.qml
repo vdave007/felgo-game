@@ -19,7 +19,10 @@ Rectangle {
             console.log("Pos", position);
             entityManager.createEntityFromUrlWithProperties(
                         Qt.resolvedUrl("../entities/SpeedGun.qml"),
-                        {"x": position.x, "y": position.y, "z": 100, "upgradeLevel": upgradeManager.speedGunUpgrade.value}
+                        {"x": 430, "y": 315, "z": 100,
+                            "upgradeManager": upgradeManager,
+                            "gameState": gameState
+                        }
                         )
         }
     }
@@ -52,7 +55,8 @@ Rectangle {
     Row {
         spacing: 10
         anchors {
-            horizontalCenter: belt.horizontalCenter
+            right: belt.right
+            rightMargin: 10
             top: belt.top
             bottom: belt.bottom
         }

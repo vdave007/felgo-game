@@ -11,9 +11,10 @@ Item {
     property int minSpeedForCars
 
     property int carCounter: 0
-    property int maxCarsOnRoad
-    property real speedModifier
+    property int maxCarsOnRoad: 1
+    property real speedModifier: 1
     property int spawnInterval: 2000
+    property int speedLimit: 50
 
     // reference to the game state
     property GameState gameState
