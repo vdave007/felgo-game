@@ -18,6 +18,13 @@ SceneBase {
         color: "#47688e"
     }
 
+
+    Image {
+        source: Qt.resolvedUrl("../../assets/img/tile.png")
+        anchors.fill: parent.gameWindowAnchorItem
+        fillMode: Image.Tile
+    }
+
     // the "logo"
     Text {
         anchors.horizontalCenter: parent.horizontalCenter

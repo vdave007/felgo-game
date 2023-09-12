@@ -1,5 +1,6 @@
 import QtQuick
-import Felgo
+import Felgo 4.0
+import "../common"
 
 EntityBase {
     id: vehicle
@@ -14,7 +15,7 @@ EntityBase {
     property bool animationRunning: true
     property int velocity: 100
     property real speedModifier: 1
-    property var gameState
+    property GameState gameState
     signal exitedFromScene
 
     Rectangle {

@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
-Rectangle {
-    id: belt
+Item {
+    id: root
 
     // reference to the game state
     property GameState gameState
@@ -33,19 +33,21 @@ Rectangle {
         speedGunIcon.opacity = 1;
     }
 
-    color: "orange"
-
-    height: 30
-
-    anchors {
-        bottom: parent.bottom
-        left: parent.left
-        right: parent.right
+    Image {
+        id: belt
+        source: Qt.resolvedUrl("../../assets/img/belt.png")
+        height: 30
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+        fillMode: Image.TileHorizontally
     }
 
     MouseArea {
         id: beltMouseArea
-        anchors.fill: parent
+        anchors.fill: belt
 
         onClicked: {
             beltClicked();

@@ -15,37 +15,20 @@ EntityBase {
     property int timeToFixate: 3000 * (1 - upgradeManager.speedGunUpgrade.value * 0.1)
     property string lastValidMeasurmentVehicleId: ""
 
-    Rectangle {
-        id: pointer
-        color: "red"
-
-        height: 5
-        width: 5
-        radius: 20
-
+    Image {
+        id: speedGunAsset
+        source: Qt.resolvedUrl("../../assets/img/radar-gun.png")
         anchors {
-            bottom: display.top
-            horizontalCenter: display.horizontalCenter
+            bottom: speedGunBase.bottom
+            horizontalCenter: speedGunBase.horizontalCenter
         }
-    }
-
-    Rectangle {
-        id: display
-        width: 50
-        height: 50
-        opacity: 1
-        color: "transparent"
-
-        anchors {
-            bottom: handle.top
-            horizontalCenter: handle.horizontalCenter
-        }
-
-        border.color: 'black'
-        border.width: 10
 
         Column {
-            anchors.centerIn: display
+            anchors {
+                horizontalCenter: speedGunAsset.horizontalCenter
+                top: speedGunAsset.top
+                topMargin: 20
+            }
             Text {
                 text: gameState.lastValidMeasurement <= 0 ? "-" : gameState.lastValidMeasurement
             }
@@ -56,29 +39,24 @@ EntityBase {
         }
     }
 
-    Rectangle {
-        id: handle
-        color: "black"
+    MouseArea {
+        id: mouseArea
         width: 20
-        height: 30
+        height: 40
         anchors {
             bottom: speedGunBase.bottom
             horizontalCenter: speedGunBase.horizontalCenter
         }
-
-        MouseArea {
-            id: mouseArea
-            anchors.fill: parent
-            drag {
-                target: speedGunBase
-                axis: Drag.XandYAxis
-            }
-
-            onReleased: {
-                speedGunBase.x = 430
-                speedGunBase.y = 315
-            }
+        drag {
+            target: speedGunBase
+            axis: Drag.XandYAxis
         }
+
+        onReleased: {
+            speedGunBase.x = 430
+            speedGunBase.y = 315
+        }
+
     }
 
     Timer {
@@ -107,7 +85,14 @@ EntityBase {
     }
 
     BoxCollider {
-        anchors.fill: pointer
+        height: 5
+        width: 5
+
+        anchors {
+            top: speedGunAsset.top
+            topMargin: 3
+            horizontalCenter: speedGunAsset.horizontalCenter
+        }
         collisionTestingOnlyMode: true
 
         property int colliderCounter: 0
@@ -136,17 +121,17 @@ EntityBase {
         State {
             name: "invalid"
             when: !fixateTimer.running && gameState.lastValidMeasurement <= 0
-            PropertyChanges { target: display; color: "red"}
+            PropertyChanges { target: speedGunAsset; source: Qt.resolvedUrl("../../assets/img/radar-gun-error.png")}
         },
         State {
             name: "progress"
             when: fixateTimer.running
-            PropertyChanges { target: display; color: "yellow"}
+            PropertyChanges { target: speedGunAsset; source: Qt.resolvedUrl("../../assets/img/radar-gun-loading.png")}
         },
         State {
             name: "success"
             when: !fixateTimer.running && gameState.lastValidMeasurement > 0
-            PropertyChanges { target: display; color: "green"}
+            PropertyChanges { target: speedGunAsset; source: Qt.resolvedUrl("../../assets/img/radar-gun.png")}
         }
 
     ]

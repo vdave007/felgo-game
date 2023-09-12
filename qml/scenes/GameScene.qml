@@ -23,11 +23,22 @@ SceneBase {
     // background
     Rectangle {
         anchors.fill: parent.gameWindowAnchorItem
-        color: "#dd94da"
+        color: "#202020"
         Text {
             anchors.centerIn: parent
             text: parent.width + "," + parent.height
         }
+    }
+
+    Image {
+        source: Qt.resolvedUrl("../../assets/img/board.png")
+        height: 150
+        anchors {
+            left: parent.gameWindowAnchorItem.left
+            right: parent.gameWindowAnchorItem.right
+            bottom: gameScene.bottom
+        }
+        fillMode: Image.TileHorizontally
     }
 
     // The road. Currently just a rectangle as placeholder.
@@ -45,6 +56,12 @@ SceneBase {
 
         gameState: gameState
         upgradeManager: gameScene.upgradeManager
+
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
 
         onSirenClicked: {
             gameState.sirenRunning = !gameState.sirenRunning;
