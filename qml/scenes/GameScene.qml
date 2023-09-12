@@ -8,22 +8,16 @@ SceneBase {
     property string activeLevelFileName
     // the currently loaded level gets stored here
     property variant activeLevel
-    // score
-    property int score: 0
-    // flag indicating if game is running
-    property bool gameRunning: gameScene.enabled
 
-    onGameRunningChanged: {
-        sirenRunning = false;
-    }
-
-
-    // flag indicating if the siren is running
-    property bool sirenRunning: false
+    property UpgradeManager upgradeManager
 
     // set the name of the current level, this will cause the Loader to load the corresponding level
     function setLevel(fileName) {
         activeLevelFileName = fileName
+    }
+
+    GameState{
+        id: gameState
     }
 
     // background
@@ -39,13 +33,21 @@ SceneBase {
     // The road. Currently just a rectangle as placeholder.
     Road {
         id: road
+
+        PoliceZone {
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+        }
     }
 
     UtilityBelt {
         id: utilityBelt
 
+        gameState: gameState
+        upgradeManager: gameScene.upgradeManager
+
         onSirenClicked: {
-            sirenRunning = !sirenRunning;
+            gameState.sirenRunning = !gameState.sirenRunning;
         }
     }
 
@@ -77,13 +79,13 @@ SceneBase {
         }
 
         onLoaded: {
-            // reset the score
-            score = 0
             // since we did not define a width and height in the level item itself, we are doing it here
-            item.width = gameScene.width
-            item.height = gameScene.height
+            item.width = gameScene.width;
+            item.height = gameScene.height;
+            item.gameState = gameState;
+            item.upgradeManager = upgradeManager;
             // store the loaded level as activeLevel for easier access
-            activeLevel = item
+            activeLevel = item;
         }
     }
 

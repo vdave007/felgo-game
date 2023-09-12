@@ -1,13 +1,17 @@
 import QtQuick 2.0
 
-Rectangle {
+Item {
 
     property int lanes: 1
-    color: "#575757"
-    height: 100
+
+    Image {
+        source: Qt.resolvedUrl("../../assets/bg/road.png")
+        anchors.fill: parent
+    }
+
+    height: 200
 
     anchors {
-        topMargin: 20
         top: parent.top
         left: parent.left
         right: parent.right

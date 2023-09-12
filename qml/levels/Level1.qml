@@ -15,23 +15,11 @@ Common.LevelBase {
     Column {
         anchors.centerIn: parent;
         Common.MenuButton {
+            visible: false
             text: "SpawnACar"
 
             onClicked: {
                 spawnCar();
-            }
-        }
-
-        Common.MenuButton {
-            text: "Siren -" +speedModifier
-
-
-            onClicked: {
-                if (speedModifier == 1) {
-                    speedModifier = 0.75;
-                } else {
-                    speedModifier = 1;
-                }
             }
         }
     }

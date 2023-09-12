@@ -15,7 +15,11 @@ Item {
     property real speedModifier
     property int spawnInterval: 2000
 
-    readonly property real sirenModifier: 1 - (storage.getValue("sirenUpgrade").value * 0.1)
+    // reference to the game state
+    property GameState gameState
+    property UpgradeManager upgradeManager
+
+    readonly property real sirenModifier: 1 - (upgradeManager.sirenUpgrade.value * 0.1)
 
     Storage {
         id: storage
@@ -27,7 +31,7 @@ Item {
         id: spawnTimer
 
         interval: spawnInterval
-        running: gameRunning
+        running: gameState.gameRunning
         repeat: true
 
         onTriggered: {
@@ -39,24 +43,27 @@ Item {
         const currentNumberOfCars = entityManager.getEntityArrayByType("Vehicle").length;
         console.log("Currently active cars: ", currentNumberOfCars);
 
-        if (!sirenRunning && currentNumberOfCars < maxCarsOnRoad) {
+        if (!gameState.sirenRunning && currentNumberOfCars < maxCarsOnRoad) {
             spawnCar();
         }
     }
 
     function spawnCar() {
         let theId = "car_id_" + carCounter;
-        let theSpeed = Math.random() * (maxSpeedForCars - minSpeedForCars) + minSpeedForCars;
+        let theSpeed = Math.floor(Math.random() * (maxSpeedForCars - minSpeedForCars) + minSpeedForCars);
+        let y = (theSpeed % 2) ? 110 : 60;
         carCounter = carCounter + 1;
         entityManager.createEntityFromUrlWithProperties(Qt.resolvedUrl("../entities/VehicleEntity.qml"),
-                                                        {"x": 0, "y": 50,
+                                                        {"x": 0, "y": y,
                                                             "entityId": theId,
                                                             "velocity" : theSpeed,
-                                                            "speedModifier": Qt.binding(getSpeedModifier)});
+                                                            "speedModifier": Qt.binding(getSpeedModifier),
+                                                            "gameState": gameState
+                                                        });
     }
 
     function getSpeedModifier() {
-        if (sirenRunning) {
+        if (gameState.sirenRunning) {
             return speedModifier * sirenModifier;
         } else {
             return speedModifier;

@@ -8,7 +8,8 @@ EntityBase {
     entityType: "SpeedGun"
 
     property var targetedVehicle: undefined
-    property int timeToFixate: 3000
+    property int timeToFixate: 3000 * (1 - upgradeLevel * 0.1)
+    property int upgradeLevel: 0
     property int lastValidMeasurement: -1
 
     Rectangle {

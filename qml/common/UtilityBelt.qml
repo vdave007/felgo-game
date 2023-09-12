@@ -3,6 +3,10 @@ import QtQuick 2.0
 Rectangle {
     id: belt
 
+    // reference to the game state
+    property GameState gameState
+    property UpgradeManager upgradeManager
+
     signal speedGunClicked
     signal sirenClicked
     signal beltClicked
@@ -15,7 +19,7 @@ Rectangle {
             console.log("Pos", position);
             entityManager.createEntityFromUrlWithProperties(
                         Qt.resolvedUrl("../entities/SpeedGun.qml"),
-                        {"x": position.x, "y": position.y}
+                        {"x": position.x, "y": position.y, "z": 100, "upgradeLevel": upgradeManager.speedGunUpgrade.value}
                         )
         }
     }
@@ -72,7 +76,7 @@ Rectangle {
 
         Rectangle {
             id: siren
-            color: sirenRunning ? "red" : "blue"
+            color: gameState.sirenRunning ? "red" : "blue"
 
             width: 20
             height: 20

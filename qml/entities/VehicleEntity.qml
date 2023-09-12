@@ -14,6 +14,7 @@ EntityBase {
     property bool animationRunning: true
     property int velocity: 100
     property real speedModifier: 1
+    property var gameState
     signal exitedFromScene
 
     Rectangle {
@@ -34,6 +35,25 @@ EntityBase {
                 text: "speed:" + vehicle.finalSpeed
             }
 
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: gameState.sirenRunning
+            onClicked: {
+                if (movement.running) {
+                    console.log("Stopping vehicle:", entityId);
+                    movement.stop()
+                    vehicle.x = 350
+                    vehicle.y = 160;
+                    vehicle.entityType = "StoppedVehicle"
+                } else {
+                    movement.start();
+                    vehicle.y = 110;
+                    vehicle.velocity = 30;
+                    vehicle.entityType = "Vehicle"
+                }
+            }
         }
     }
 

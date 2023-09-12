@@ -5,15 +5,7 @@ import "../common"
 SceneBase {
     id: upgradesScene
 
-    Component.onCompleted: {
-       initializeUpgrades();
-    }
-
-    property var sirenUpgrade
-
-    Storage {
-        id: storage
-    }
+    property UpgradeManager upgradeManager
 
     Rectangle {
         anchors.fill: parent.gameWindowAnchorItem
@@ -39,9 +31,7 @@ SceneBase {
         anchors.right: backButton.right
 
         onClicked: {
-            storage.clearAll();
-            sirenUpgrade = undefined;
-            initializeUpgrades();
+            upgradeManager.resetUpgrades();
         }
     }
 
@@ -63,7 +53,7 @@ SceneBase {
                 Text {
                     id: sirenUpgradeText
                     anchors.centerIn: parent
-                    text: "0"
+                    text: upgradeManager.sirenUpgrade.value
                 }
             }
 
@@ -73,25 +63,40 @@ SceneBase {
                 text: "+"
 
                 onClicked: {
-                    if(sirenUpgrade.value < 10) {
-                        sirenUpgrade.value++;
-                        sirenUpgradeText.text = sirenUpgrade.value
-                        storage.setValue(sirenUpgrade.id, sirenUpgrade);
-                    }
+                    upgradeManager.upgradeSiren();
                 }
             }
         }
-    }
 
-    function initializeUpgrades() {
-        sirenUpgrade = storage.getValue("sirenUpgrade")
+        Row {
+            spacing: 5
 
-        if(!sirenUpgrade) {
-          sirenUpgrade = {id: "sirenUpgrade", value: 1, description: "Siren upgrade"}
-          storage.setValue(sirenUpgrade.id, sirenUpgrade)
+            Text {
+                text: "Speed Gun upgrade: "
+            }
+
+            Rectangle {
+                color: "gray"
+                width: 20
+                height: 20
+
+                Text {
+                    id: speedGunUpgradeText
+                    anchors.centerIn: parent
+                    text: upgradeManager.speedGunUpgrade.value
+                }
+            }
+
+            MenuButton {
+                width: 20
+                height: 20
+                text: "+"
+
+                onClicked: {
+                    upgradeManager.upgradeSpeedGun();
+                }
+            }
         }
-
-        sirenUpgradeText.text = sirenUpgrade.value
     }
 
 }

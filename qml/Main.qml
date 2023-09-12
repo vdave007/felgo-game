@@ -1,6 +1,7 @@
 import Felgo 4.0
 import QtQuick 2.0
 import "scenes"
+import "common"
 
 GameWindow {
     id: window
@@ -13,6 +14,10 @@ GameWindow {
     EntityManager {
         id: entityManager
         entityContainer: gameScene
+    }
+
+    UpgradeManager {
+        id: upgradeManager
     }
 
     // menu scene
@@ -58,6 +63,8 @@ GameWindow {
     // game scene to play a level
     GameScene {
         id: gameScene
+
+        upgradeManager: upgradeManager
         onBackButtonPressed: window.state = "selectLevel"
 
         //Setting it to Level 1 to easytest
@@ -66,6 +73,8 @@ GameWindow {
 
     UpgradesScene {
         id: upgradesScene
+
+        upgradeManager: upgradeManager
         onBackButtonPressed: window.state = "menu"
     }
 
