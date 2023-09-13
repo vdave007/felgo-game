@@ -11,6 +11,7 @@ Item {
     signal speedGunClicked
     signal sirenClicked
     signal beltClicked
+    signal ticketBookClicked
 
     onSpeedGunClicked: {
         if(entityManager.getEntityArrayByType("SpeedGun").length === 0){
@@ -87,5 +88,19 @@ Item {
                 speedGunClicked();
             }
         }
+    }
+
+    TicketBookMini {
+        id: ticketBook
+
+        anchors {
+            bottom: parent.bottom
+            right: speedGunIcon.left
+        }
+
+        onClicked: {
+            ticketBookClicked();
+        }
+
     }
 }

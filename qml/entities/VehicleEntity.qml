@@ -46,11 +46,11 @@ EntityBase {
                     console.log("Stopping vehicle:", entityId);
                     movement.stop()
                     vehicle.x = 350
-                    vehicle.y = 160;
+                    vehicle.y = 128;
                     vehicle.entityType = "StoppedVehicle"
                 } else {
                     movement.start();
-                    vehicle.y = 110;
+                    vehicle.y = 83;
                     vehicle.velocity = 30;
                     vehicle.entityType = "Vehicle"
                 }

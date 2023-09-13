@@ -72,7 +72,16 @@ SceneBase {
         onSirenClicked: {
             gameState.sirenRunning = !gameState.sirenRunning;
         }
+
+        onTicketBookClicked: {
+            ticketBook.open();
+        }
     }
+
+    TicketBook {
+        id: ticketBook
+    }
+
 
     PhysicsWorld {
     }
