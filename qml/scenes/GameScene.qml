@@ -32,11 +32,11 @@ SceneBase {
 
     Image {
         source: Qt.resolvedUrl("../../assets/img/board.png")
-        height: 150
         anchors {
             left: parent.gameWindowAnchorItem.left
             right: parent.gameWindowAnchorItem.right
             bottom: gameScene.bottom
+            top: road.bottom
         }
         fillMode: Image.TileHorizontally
     }
@@ -44,6 +44,12 @@ SceneBase {
     // The road. Currently just a rectangle as placeholder.
     Road {
         id: road
+
+        anchors {
+            left: parent.gameWindowAnchorItem.left
+            right: parent.gameWindowAnchorItem.right
+            top: gameScene.top
+        }
 
         PoliceZone {
             anchors.right: parent.right
@@ -59,8 +65,8 @@ SceneBase {
 
         anchors {
             bottom: parent.bottom
-            left: parent.left
-            right: parent.right
+            left: parent.gameWindowAnchorItem.left
+            right: parent.gameWindowAnchorItem.right
         }
 
         onSirenClicked: {

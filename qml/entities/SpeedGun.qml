@@ -15,6 +15,12 @@ EntityBase {
     property int timeToFixate: 3000 * (1 - upgradeManager.speedGunUpgrade.value * 0.1)
     property string lastValidMeasurmentVehicleId: ""
 
+    property int initialXPos: 0
+    property int initialYPos: 0
+
+    x: initialXPos
+    y: initialYPos
+
     Image {
         id: speedGunAsset
         source: Qt.resolvedUrl("../../assets/img/radar-gun.png")
@@ -53,10 +59,9 @@ EntityBase {
         }
 
         onReleased: {
-            speedGunBase.x = 430
-            speedGunBase.y = 315
+            speedGunBase.x = initialXPos;
+            speedGunBase.y = initialYPos;
         }
-
     }
 
     Timer {

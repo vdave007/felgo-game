@@ -52,7 +52,7 @@ Item {
     function spawnCar() {
         let theId = "car_id_" + carCounter;
         let theSpeed = Math.floor(Math.random() * (maxSpeedForCars - minSpeedForCars) + minSpeedForCars);
-        let y = (theSpeed % 2) ? 110 : 60;
+        let y = (theSpeed % 2) ? 83 : 38;
         carCounter = carCounter + 1;
         entityManager.createEntityFromUrlWithProperties(Qt.resolvedUrl("../entities/VehicleEntity.qml"),
                                                         {"x": 0, "y": y,

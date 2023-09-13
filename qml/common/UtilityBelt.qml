@@ -1,5 +1,6 @@
 import QtQuick 2.0
-
+import "../entities"
+import "../common"
 Item {
     id: root
 
@@ -15,11 +16,11 @@ Item {
         if(entityManager.getEntityArrayByType("SpeedGun").length === 0){
             speedGunIcon.enabled = false;
             speedGunIcon.opacity = 0.2;
-            let position = mapToItem(gameScene, beltMouseArea.mouseX, speedGunMouseArea.mouseY+15);
+            let position = mapToItem(gameScene.gameWindowAnchorItem, speedGunIcon.x, speedGunMouseArea.mouseY-50);
             console.log("Pos", position);
             entityManager.createEntityFromUrlWithProperties(
                         Qt.resolvedUrl("../entities/SpeedGun.qml"),
-                        {"x": 430, "y": 315, "z": 100,
+                        {"initialXPos": position.x, "initialYPos": position.y, "z": 100,
                             "upgradeManager": upgradeManager,
                             "gameState": gameState
                         }
@@ -54,47 +55,36 @@ Item {
         }
     }
 
-    Row {
-        spacing: 10
+    CustomToggle {
+        id: siren
+        toggled: gameState.sirenRunning
+
+        width: 40
+        height: 20
         anchors {
+            verticalCenter: belt.verticalCenter
             right: belt.right
-            rightMargin: 10
-            top: belt.top
-            bottom: belt.bottom
         }
 
-        Rectangle {
-            id: speedGunIcon
-            color: "black"
-            width: 20
-            height: 20
-            anchors.verticalCenter: parent.verticalCenter
+        onClicked: sirenClicked()
+    }
 
-            MouseArea {
-                id: speedGunMouseArea
-                anchors.fill: parent
+    Image {
+        id: speedGunIcon
 
-                onClicked: {
-                    speedGunClicked();
-                }
-            }
+        source: Qt.resolvedUrl("../../assets/img/radar-gun-mini.png")
+
+        anchors {
+            bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
         }
 
-        Rectangle {
-            id: siren
-            color: gameState.sirenRunning ? "red" : "blue"
+        MouseArea {
+            id: speedGunMouseArea
+            anchors.fill: parent
 
-            width: 20
-            height: 20
-            anchors.verticalCenter: parent.verticalCenter
-
-            MouseArea {
-                id: sirenMouseArea
-                anchors.fill: parent
-
-                onClicked: {
-                    sirenClicked();
-                }
+            onClicked: {
+                speedGunClicked();
             }
         }
     }

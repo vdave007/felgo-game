@@ -5,11 +5,17 @@ Item {
     property int lanes: 1
 
     Image {
-        source: Qt.resolvedUrl("../../assets/bg/road.png")
-        anchors.fill: parent
+        source: Qt.resolvedUrl("../../assets/img/road3.png")
+        anchors {
+            left: parent.left
+            top: parent.top
+            right: parent.right
+        }
+
+        fillMode: Image.TileHorizontally
     }
 
-    height: 200
+    height: 162
 
     anchors {
         top: parent.top
