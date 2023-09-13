@@ -10,20 +10,38 @@ EntityBase {
     entityId: "vehicleId"
     entityType: "Vehicle"
 
-    readonly property int finalSpeed: velocity * speedModifier
+    readonly property int finalSpeed: {
+        let tempSpeed = velocity * speedModifier;
+        if(!ignoresSiren) {
+            if (gameState.sirenRunning){
+                tempSpeed = tempSpeed * upgradeManager.sirenModifier;
+            }
+        }
+        return tempSpeed;
+    }
 
     property bool animationRunning: true
     property int velocity: 100
     property real speedModifier: 1
-    property GameState gameState
-    signal exitedFromScene
 
-    Rectangle {
+    property string licensePlate: entityId
+    property int maxSpeed: 30
+    property string type: "unknown"
+    property string model: "unknown"
+    property bool ignoresSiren: false
+    property url assetPath: Qt.resolvedUrl("../../assets/cars/"+model+".png")
+
+    property GameState gameState
+    property UpgradeManager upgradeManager
+
+    Image {
         id: vehicleAsset
         anchors.fill: parent
-        color: "red"
+        rotation: 180
+        source: assetPath
 
         Column  {
+            rotation: 180
             anchors.centerIn: parent
             Text {
                 font.pixelSize: 7
@@ -73,7 +91,6 @@ EntityBase {
             var collidedEntityId = collidedEntity.entityId;
 
             if (collidedEntityType == vehicle.entityType) {
-                vehicleAsset.color = "#abcdef";
                 let smallerSpeed = Math.min(vehicle.velocity, collidedEntity.velocity);
                 vehicle.velocity = smallerSpeed;
                 collidedEntity.velocity = smallerSpeed;

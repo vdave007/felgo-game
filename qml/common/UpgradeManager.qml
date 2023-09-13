@@ -6,6 +6,8 @@ Item {
     property var sirenUpgrade
     property var speedGunUpgrade
 
+    readonly property real sirenModifier: 1 - (sirenUpgrade.value * 0.1)
+
     Component.onCompleted: {
        loadUpgrades();
     }

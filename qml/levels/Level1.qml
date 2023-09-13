@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import Felgo 4.0
-import "../entities" as Entities
 import "../common" as Common
 
 Common.LevelBase {
@@ -8,7 +7,6 @@ Common.LevelBase {
 
     speedLimit: 50
 
-    maxSpeedForCars: 130
     minSpeedForCars: 30
 
     maxCarsOnRoad: 2
@@ -17,7 +15,7 @@ Common.LevelBase {
     Column {
         anchors.centerIn: parent;
         Common.MenuButton {
-            visible: false
+            visible: true
             text: "SpawnACar"
 
             onClicked: {

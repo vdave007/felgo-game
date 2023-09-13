@@ -2,6 +2,7 @@ import QtQuick 2.0
 import Felgo 4.0
 
 Item {
+    id: root
     // this will be displayed in the GameScene
     property string levelName
     // this is emitted whenever the rectangle has been tapped successfully, the GameScene will listen to this signal and increase the score
@@ -12,7 +13,8 @@ Item {
 
     property int carCounter: 0
     property int maxCarsOnRoad: 1
-    property real speedModifier: 1
+    property real speedModifier: 1.0
+    property real chanceForIgnorants: 0.0
     property int spawnInterval: 2000
     property int speedLimit: 50
 
@@ -20,13 +22,16 @@ Item {
     property GameState gameState
     property UpgradeManager upgradeManager
 
-    readonly property real sirenModifier: 1 - (upgradeManager.sirenUpgrade.value * 0.1)
-
     Storage {
         id: storage
     }
 
-
+    CarBuilder {
+        id: carBuilder
+        speedModifier: root.speedModifier
+        minSpeedForCars: root.minSpeedForCars
+        chanceForIgnorants: root.chanceForIgnorants
+    }
 
     Timer {
         id: spawnTimer
@@ -42,33 +47,13 @@ Item {
 
     function trySpawn() {
         const currentNumberOfCars = entityManager.getEntityArrayByType("Vehicle").length;
-        console.log("Currently active cars: ", currentNumberOfCars);
 
         if (!gameState.sirenRunning && currentNumberOfCars < maxCarsOnRoad) {
-            spawnCar();
+            carBuilder.generateRandomType();
         }
     }
 
     function spawnCar() {
-        let theId = "car_id_" + carCounter;
-        let theSpeed = Math.floor(Math.random() * (maxSpeedForCars - minSpeedForCars) + minSpeedForCars);
-        let y = (theSpeed % 2) ? 83 : 38;
-        carCounter = carCounter + 1;
-        entityManager.createEntityFromUrlWithProperties(Qt.resolvedUrl("../entities/VehicleEntity.qml"),
-                                                        {"x": 0, "y": y,
-                                                            "entityId": theId,
-                                                            "velocity" : theSpeed,
-                                                            "speedModifier": Qt.binding(getSpeedModifier),
-                                                            "gameState": gameState
-                                                        });
+        carBuilder.generateRandomType();
     }
-
-    function getSpeedModifier() {
-        if (gameState.sirenRunning) {
-            return speedModifier * sirenModifier;
-        } else {
-            return speedModifier;
-        }
-    }
-
 }

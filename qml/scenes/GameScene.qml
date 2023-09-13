@@ -52,6 +52,7 @@ SceneBase {
         }
 
         PoliceZone {
+            gameState: gameState
             anchors.right: parent.right
             anchors.bottom: parent.bottom
         }

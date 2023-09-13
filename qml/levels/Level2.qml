@@ -5,10 +5,22 @@ import "../common" as Common
 Common.LevelBase {
     levelName: "Level2"
 
-    maxSpeedForCars: 130
-    minSpeedForCars: 30
+    speedLimit: 70
+
+    minSpeedForCars: 50
 
     maxCarsOnRoad: 3
-    speedModifier: 2
-    spawnInterval: 1000
+    speedModifier: 1.5
+
+    Column {
+        anchors.centerIn: parent;
+        Common.MenuButton {
+            visible: true
+            text: "SpawnACar"
+
+            onClicked: {
+                spawnCar();
+            }
+        }
+    }
 }

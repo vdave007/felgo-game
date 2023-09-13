@@ -29,9 +29,9 @@ SceneBase {
     Grid {
         anchors.centerIn: parent
         spacing: 10
-        columns: 5
+        columns: 1
         MenuButton {
-            text: "1"
+            text: "Easy"
             width: 50
             height: 50
             onClicked: {
@@ -39,7 +39,7 @@ SceneBase {
             }
         }
         MenuButton {
-            text: "2"
+            text: "Medium"
             width: 50
             height: 50
             onClicked: {
@@ -47,19 +47,19 @@ SceneBase {
             }
         }
         MenuButton {
-            text: "3"
+            text: "Hard"
             width: 50
             height: 50
             onClicked: {
                 levelPressed("Level3.qml")
             }
         }
-        Repeater {
-            model: 10
-            MenuButton {
-                text: " "
-                width: 50
-                height: 50
+        MenuButton {
+            text: "Impossible"
+            width: 50
+            height: 50
+            onClicked: {
+                levelPressed("LevelImpossible.qml")
             }
         }
     }
