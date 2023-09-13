@@ -5,7 +5,7 @@ import "../common" as Common
 Common.LevelBase {
     levelName: "Level3"
 
-    speedLimit: 130
+    speedLimit: 666
 
     minSpeedForCars: 90
 

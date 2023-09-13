@@ -1,10 +1,10 @@
 import QtQuick 2.0
 
 Item {
-
-    property int lanes: 1
+    id: root
 
     Image {
+        id: road
         source: Qt.resolvedUrl("../../assets/img/road3.png")
         anchors {
             left: parent.left
@@ -13,6 +13,16 @@ Item {
         }
 
         fillMode: Image.TileHorizontally
+    }
+
+    SpeedSign {
+        speedLimit: gameState.speedLimit
+        width: 32
+        height: 32
+        anchors {
+            left: road.left
+            top: road.top
+        }
     }
 
     height: 162

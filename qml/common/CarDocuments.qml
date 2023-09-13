@@ -5,20 +5,20 @@ Popup {
     id: popup
 
     property GameState gameState
-
-    property string reason: gameState.lastValidMeasurement > 0 ? "SPEEDING" : "No reason"
+    property var vehicle
 
     anchors.centerIn: parent
-    width: 200
-    height: 300
+    width: 350
+    height: 500
     modal: true
     focus: true
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
     contentItem: Item {
+
         Column {
-            spacing: 10
-            width: 180
+            spacing: 20
+            width: 310
             anchors {
                 left: parent.left
                 leftMargin: 10
@@ -26,36 +26,27 @@ Popup {
 
             StyledText {
                 width: parent.width
-
-                text: `Ticket reason: ${reason}`
+                text: `License plate: ${vehicle.licensePlate}`
             }
-
             StyledText {
                 width: parent.width
-                visible: gameState.lastValidMeasurement > 0
-
-                text: `Issued to: ${gameState.lastValidMeasurmentVehicleId}`
+                text: `Car model: ${vehicle.model}`
             }
-
             StyledText {
                 width: parent.width
-                visible: gameState.lastValidMeasurement > 0
-
-                text: `Speed: ${gameState.lastValidMeasurement}`
+                text: `Car type: ${vehicle.type}`
             }
         }
 
         MenuButton {
-            text: "Give ticket"
-            visible: gameState.hasStoppedCar
+            text: "Give back and release"
             anchors {
                 bottom: parent.bottom
-                bottomMargin: 10
+                bottomMargin: 30
                 horizontalCenter: parent.horizontalCenter
             }
             onClicked: {
-                gameState.issueTicket(gameState.stoppedCar);
-                popup.close()
+                gameState.carReleased(vehicle);
             }
         }
     }
@@ -63,6 +54,6 @@ Popup {
     background: Image {
         width: popup.width
         height: popup.height
-        source: Qt.resolvedUrl("../../assets/img/ticket-big.png")
+        source: Qt.resolvedUrl("../../assets/img/car-paper-open-big.png")
     }
 }

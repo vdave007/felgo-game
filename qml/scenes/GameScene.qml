@@ -77,10 +77,29 @@ SceneBase {
         onTicketBookClicked: {
             ticketBook.open();
         }
+
+        onCarDocumentsClicked: {
+            carDocuments.item.open();
+        }
     }
 
     TicketBook {
         id: ticketBook
+
+        gameState: gameState
+    }
+
+    Loader {
+        id: carDocuments
+        anchors.fill: parent
+        source: "../common/CarDocuments.qml"
+        active: gameState.hasStoppedCar
+
+        onLoaded: {
+            item.gameState = gameState;
+            item.vehicle = gameState.stoppedCar;
+        }
+
     }
 
 
@@ -118,6 +137,7 @@ SceneBase {
             item.gameState = gameState;
             item.upgradeManager = upgradeManager;
             // store the loaded level as activeLevel for easier access
+            gameState.speedLimit = item.speedLimit;
             activeLevel = item;
         }
     }

@@ -12,6 +12,7 @@ Item {
     signal sirenClicked
     signal beltClicked
     signal ticketBookClicked
+    signal carDocumentsClicked
 
     onSpeedGunClicked: {
         if(entityManager.getEntityArrayByType("SpeedGun").length === 0){
@@ -102,5 +103,19 @@ Item {
             ticketBookClicked();
         }
 
+    }
+
+    CarDocumentsMini {
+        id: carDocuments
+        width: visible ? 64 : 0
+        visible: gameState.hasStoppedCar
+        anchors {
+            bottom: parent.bottom
+            left: speedGunIcon.right
+        }
+
+        onClicked: {
+            carDocumentsClicked();
+        }
     }
 }

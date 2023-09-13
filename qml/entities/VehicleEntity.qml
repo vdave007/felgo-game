@@ -60,17 +60,15 @@ EntityBase {
             anchors.fill: parent
             enabled: gameState.sirenRunning
             onClicked: {
-                if (movement.running) {
-                    console.log("Stopping vehicle:", entityId);
-                    movement.stop()
-                    vehicle.x = 350
-                    vehicle.y = 128;
-                    vehicle.entityType = "StoppedVehicle"
-                } else {
-                    movement.start();
-                    vehicle.y = 83;
-                    vehicle.velocity = 30;
-                    vehicle.entityType = "Vehicle"
+                if(!gameState.hasStoppedCar){
+                    if (movement.running) {
+                        console.log("Stopping vehicle:", entityId);
+                        movement.stop()
+                        vehicle.x = 200;
+                        vehicle.y = 128;
+                        vehicle.entityType = "StoppedVehicle"
+                        gameState.carStopped(vehicle)
+                    }
                 }
             }
         }
@@ -110,6 +108,19 @@ EntityBase {
         onLimitReached: {
             animationRunning = false;
             vehicle.removeEntity();
+        }
+    }
+
+    Connections {
+        target: gameState
+
+        onCarReleased: {
+            if(car == vehicle) {
+                movement.start();
+                vehicle.y = 83;
+                vehicle.velocity = 30;
+                vehicle.entityType = "Vehicle"
+            }
         }
     }
 
