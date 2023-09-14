@@ -5,10 +5,10 @@ import "../common"
 SceneBase {
     id:creditsScene
 
-    // background
-    Rectangle {
+    Image {
+        source: Qt.resolvedUrl("../../assets/img/tile.png")
         anchors.fill: parent.gameWindowAnchorItem
-        color: "#49a349"
+        fillMode: Image.Tile
     }
 
     // back button to leave scene
@@ -24,7 +24,7 @@ SceneBase {
 
     // credits
     Text {
-        text: "Credits to: YOU :)"
+        text: "Credits to: Vincze David :)"
         color: "white"
         anchors.centerIn: parent
     }

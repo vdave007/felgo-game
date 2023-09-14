@@ -25,17 +25,34 @@ SceneBase {
         fillMode: Image.Tile
     }
 
-    // the "logo"
-    Text {
-        anchors.horizontalCenter: parent.horizontalCenter
-        y: 30
-        font.pixelSize: 30
-        color: "#e9e9e9"
-        text: "MultiSceneMultiLevel"
+    Image {
+        id: logo
+        source: Qt.resolvedUrl("../../assets/img/logo.png")
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: menuColumn.top
+        }
+    }
+
+    AnimatedSprite {
+        id: sirenSprite
+        anchors.right: menuScene.gameWindowAnchorItem.right
+        anchors.rightMargin: 10
+        anchors.bottom: menuScene.gameWindowAnchorItem.bottom
+        anchors.bottomMargin: 10
+        running: true
+        frameCount:5
+        frameWidth: 64
+        frameHeight: 64
+        source: Qt.resolvedUrl("../../assets/img/siren.png")
+
+        // update the animation 20 times per second
+        frameRate: 5
     }
 
     // menu
     Column {
+        id: menuColumn
         anchors.centerIn: parent
         spacing: 10
         MenuButton {
@@ -51,16 +68,5 @@ SceneBase {
             text: "Credits"
             onClicked: creditsPressed()
         }
-    }
-
-    // a little Felgo logo is always nice to have, right?
-    Image {
-        source: Qt.resolvedUrl("../../assets/img/felgo-logo.png")
-        width: 60
-        height: 60
-        anchors.right: menuScene.gameWindowAnchorItem.right
-        anchors.rightMargin: 10
-        anchors.bottom: menuScene.gameWindowAnchorItem.bottom
-        anchors.bottomMargin: 10
     }
 }

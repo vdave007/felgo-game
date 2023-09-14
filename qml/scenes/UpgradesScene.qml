@@ -7,9 +7,10 @@ SceneBase {
 
     property UpgradeManager upgradeManager
 
-    Rectangle {
+    Image {
+        source: Qt.resolvedUrl("../../assets/img/tile.png")
         anchors.fill: parent.gameWindowAnchorItem
-        color: "#49a349"
+        fillMode: Image.Tile
     }
 
     // back button to leave scene
@@ -42,6 +43,7 @@ SceneBase {
         anchors.right: resetButton.right
 
         Text {
+            color: "white"
             text: "Debug enabled:"
         }
 
@@ -61,6 +63,7 @@ SceneBase {
         anchors.centerIn: parent
 
         Text {
+            color: "white"
             text: `Current money: ${upgradeManager.money.value}`
         }
 
@@ -68,6 +71,7 @@ SceneBase {
             spacing: 5
 
             Text {
+                color: "white"
                 text: "Siren upgrade: "
             }
 
@@ -79,6 +83,7 @@ SceneBase {
                 Text {
                     id: sirenUpgradeText
                     anchors.centerIn: parent
+                    color: "white"
                     text: upgradeManager.sirenUpgrade.value
                 }
             }
@@ -98,6 +103,7 @@ SceneBase {
             spacing: 5
 
             Text {
+                color: "white"
                 text: "Speed Gun upgrade: "
             }
 
@@ -108,6 +114,7 @@ SceneBase {
 
                 Text {
                     id: speedGunUpgradeText
+                    color: "white"
                     anchors.centerIn: parent
                     text: upgradeManager.speedGunUpgrade.value
                 }

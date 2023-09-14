@@ -8,10 +8,10 @@ SceneBase {
     // signal indicating that a level has been selected
     signal levelPressed(string selectedLevel)
 
-    // background
-    Rectangle {
+    Image {
+        source: Qt.resolvedUrl("../../assets/img/tile.png")
         anchors.fill: parent.gameWindowAnchorItem
-        color: "#ece468"
+        fillMode: Image.Tile
     }
 
     // back button to leave scene
@@ -32,32 +32,24 @@ SceneBase {
         columns: 1
         MenuButton {
             text: "Easy"
-            width: 50
-            height: 50
             onClicked: {
                 levelPressed("Level1.qml")
             }
         }
         MenuButton {
             text: "Medium"
-            width: 50
-            height: 50
             onClicked: {
                 levelPressed("Level2.qml")
             }
         }
         MenuButton {
             text: "Hard"
-            width: 50
-            height: 50
             onClicked: {
                 levelPressed("Level3.qml")
             }
         }
         MenuButton {
             text: "Impossible"
-            width: 50
-            height: 50
             onClicked: {
                 levelPressed("LevelImpossible.qml")
             }
