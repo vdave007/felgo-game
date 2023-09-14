@@ -45,12 +45,12 @@ EntityBase {
             anchors.centerIn: parent
             Text {
                 font.pixelSize: 7
-                visible: debugInfoEnabled
+                visible: upgradeManager.debugModifier
                 text: vehicle.entityId
             }
             Text {
                 font.pixelSize: 7
-                visible: debugInfoEnabled
+                visible: upgradeManager.debugModifier
                 text: "speed:" + vehicle.finalSpeed
             }
 

@@ -3,9 +3,13 @@ import Felgo 4.0
 
 Item {
 
+    property bool debugModifier: true
     property var sirenUpgrade
     property var speedGunUpgrade
+    property var money
 
+    readonly property int speedGunInitialTimeToFixate: 2000
+    readonly property real speedGunModifier: 1 - (speedGunUpgrade.value * 0.1)
     readonly property real sirenModifier: 1 - (sirenUpgrade.value * 0.1)
 
     Component.onCompleted: {
@@ -18,19 +22,42 @@ Item {
 
     function upgradeSpeedGun() {
         if(speedGunUpgrade.value < 10) {
-            speedGunUpgrade.value++;
-            storage.setValue(speedGunUpgrade.id, speedGunUpgrade);
-            loadUpgrades();
+            if (money.value > 0 || debugModifier) {
+                money.value--;
+                storage.setValue(money.id, money);
+                speedGunUpgrade.value++;
+                storage.setValue(speedGunUpgrade.id, speedGunUpgrade);
+                loadUpgrades();
+            } else {
+                console.log("NOT ENOUGH MONEY!");
+            }
         }
-
     }
 
     function upgradeSiren() {
         if(sirenUpgrade.value < 10) {
-            sirenUpgrade.value++;
-            storage.setValue(sirenUpgrade.id, sirenUpgrade);
-            loadUpgrades();
+            if (money.value > 0 || debugModifier) {
+                money.value--;
+                storage.setValue(money.id, money);
+                sirenUpgrade.value++;
+                storage.setValue(sirenUpgrade.id, sirenUpgrade);
+                loadUpgrades();
+            } else {
+                console.log("NOT ENOUGH MONEY!");
+            }
         }
+    }
+
+    function addMoney(amount) {
+        money.value += amount;
+        storage.setValue(money.id, money);
+        loadUpgrades();
+    }
+
+    function removeMoney(amount) {
+        money.value -= amount;
+        storage.setValue(money.id, money);
+        loadUpgrades();
     }
 
     function resetUpgrades() {
@@ -41,6 +68,8 @@ Item {
     function loadUpgrades() {
         let tempSirenUpgrade = storage.getValue("sirenUpgrade")
         let tempSpeedGunUpgrade = storage.getValue("speedGunUpgrade");
+        let tempMoney = storage.getValue("money");
+
 
         if(!tempSirenUpgrade) {
           tempSirenUpgrade = {id: "sirenUpgrade", value: 1, description: "Siren upgrade"};
@@ -52,7 +81,13 @@ Item {
             storage.setValue(tempSpeedGunUpgrade.id, tempSpeedGunUpgrade);
         }
 
+        if(!tempMoney) {
+            tempMoney = {id: "money", value: 0, description: "Money to upgrade"};
+            storage.setValue(tempMoney.id, tempMoney);
+        }
+
         sirenUpgrade = tempSirenUpgrade;
         speedGunUpgrade = tempSpeedGunUpgrade;
+        money = tempMoney ;
     }
 }

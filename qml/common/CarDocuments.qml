@@ -36,19 +36,17 @@ Popup {
                 width: parent.width
                 text: `Car type: ${vehicle.type}`
             }
+            MenuButton {
+                text: "Give back and release"
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                }
+                onClicked: {
+                    gameState.carReleased(vehicle);
+                }
+            }
         }
 
-        MenuButton {
-            text: "Give back and release"
-            anchors {
-                bottom: parent.bottom
-                bottomMargin: 30
-                horizontalCenter: parent.horizontalCenter
-            }
-            onClicked: {
-                gameState.carReleased(vehicle);
-            }
-        }
     }
 
     background: Image {

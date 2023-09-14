@@ -63,8 +63,11 @@ Item {
 
         width: 40
         height: 20
+        rotation: 270
+        scale: 2
         anchors {
-            verticalCenter: belt.verticalCenter
+            bottom: belt.bottom
+            bottomMargin: 40
             right: belt.right
         }
 
@@ -88,6 +91,21 @@ Item {
             onClicked: {
                 speedGunClicked();
             }
+        }
+    }
+
+    Image {
+        id: money
+
+        source: Qt.resolvedUrl("../../assets/img/money.png")
+        anchors {
+            bottom: parent.bottom
+            right: ticketBook.left
+        }
+
+        StyledText {
+            anchors.centerIn: parent
+            text: upgradeManager.money.value
         }
     }
 

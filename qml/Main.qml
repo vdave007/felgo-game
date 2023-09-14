@@ -8,8 +8,6 @@ GameWindow {
     screenWidth: 480
     screenHeight: 320
 
-    property bool debugInfoEnabled: true
-
     // create and remove entities at runtime
     EntityManager {
         id: entityManager

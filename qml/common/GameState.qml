@@ -4,6 +4,7 @@ Item {
     readonly property bool gameRunning: gameScene.enabled
     readonly property bool hasStoppedCar: stoppedCar != undefined
     property var stoppedCar: undefined
+    property UpgradeManager upgradeManager: undefined
 
     onGameRunningChanged: {
         reset();
@@ -29,9 +30,9 @@ Item {
         // TODO: maybe add a notification or something here?
         console.log("Issuing ticket for:", car.licensePlate)
         if (checkTicketValidity() === true) {
-            // Give money!
+            upgradeManager.addMoney(1);
         } else {
-            // Take money!
+            upgradeManager.removeMoney(1);
         }
 
         carReleased(car);

@@ -25,6 +25,7 @@ SceneBase {
     }
 
     MenuButton {
+        id: resetButton
         text: "Reset"
         anchors.top: backButton.bottom
         anchors.topMargin: 10
@@ -36,7 +37,32 @@ SceneBase {
     }
 
     Column {
+        anchors.top: resetButton.bottom
+        anchors.topMargin: 10
+        anchors.right: resetButton.right
+
+        Text {
+            text: "Debug enabled:"
+        }
+
+        CustomToggle {
+            width: 40
+            height: 20
+
+            toggled: upgradeManager.debugModifier
+
+            onClicked: {
+                upgradeManager.debugModifier = !upgradeManager.debugModifier;
+            }
+        }
+    }
+
+    Column {
         anchors.centerIn: parent
+
+        Text {
+            text: `Current money: ${upgradeManager.money.value}`
+        }
 
         Row {
             spacing: 5

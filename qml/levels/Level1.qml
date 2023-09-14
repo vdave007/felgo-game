@@ -15,7 +15,7 @@ Common.LevelBase {
     Column {
         anchors.centerIn: parent;
         Common.MenuButton {
-            visible: true
+            visible: upgradeManager.debugModifier
             text: "SpawnACar"
 
             onClicked: {
