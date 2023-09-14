@@ -13,7 +13,6 @@ EntityBase {
 
     property var targetedVehicle: undefined
     property int timeToFixate: upgradeManager.speedGunInitialTimeToFixate * upgradeManager.speedGunModifier
-    property string lastValidMeasurmentVehicleId: ""
 
     property int initialXPos: 0
     property int initialYPos: 0

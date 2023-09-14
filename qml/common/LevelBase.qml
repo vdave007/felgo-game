@@ -5,26 +5,24 @@ Item {
     id: root
     // this will be displayed in the GameScene
     property string levelName
-    // this is emitted whenever the rectangle has been tapped successfully, the GameScene will listen to this signal and increase the score
-    signal rectanglePressed
 
-    property int maxSpeedForCars
+    // Minimum speed of the generated vehicles
     property int minSpeedForCars
 
-    property int carCounter: 0
+    // Maximum number of cars that can be concurrently on the road
     property int maxCarsOnRoad: 1
+    // Multiplier for the speed. To increase difficulty
     property real speedModifier: 1.0
+    // Chance to generate ignorant drivers. Ignorant drivers will ignore siren's speed reduction
     property real chanceForIgnorants: 0.0
+    // The interval with which we generate new cars
     property int spawnInterval: 2000
+    //Speed limt for the level
     property int speedLimit: 50
 
-    // reference to the game state
+    // reference to the game state and upgrade manager
     property GameState gameState
     property UpgradeManager upgradeManager
-
-    Storage {
-        id: storage
-    }
 
     CarBuilder {
         id: carBuilder

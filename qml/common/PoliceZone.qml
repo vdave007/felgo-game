@@ -11,11 +11,9 @@ Item {
         onSirenRunningChanged: {
             if (gameState.sirenRunning) {
                 sirenSprite.start();
-                //                sirenSound.play();
             } else {
                 sirenSprite.stop();
                 sirenSprite.currentFrame = 0;
-                //                sirenSound.stop();
             }
         }
     }
@@ -37,17 +35,8 @@ Item {
             frameWidth: 64
             frameHeight: 64
             source: Qt.resolvedUrl("../../assets/img/siren.png")
-
-            // update the animation 20 times per second
             frameRate: 5
         }
     }
-
-    // Bug in sound effects: https://bugreports.qt.io/browse/QTBUG-108383
-    //    SoundEffect {
-    //     id: sirenSound
-    //     source: "../../assets/sounds/sample-3s.wav"
-    //     loops: SoundEffect.Infinite
-    //   }
 
 }
